@@ -13,6 +13,7 @@ class RegisteredHoursStream(DyflexisStream):
     path = "/business/v3/registered-hours"
     primary_keys = ["id"]
     replication_key = None
+    records_jsonpath = "$.registeredHours[*]"
 
     schema = th.PropertiesList(
         th.Property("id", th.IntegerType),
@@ -38,4 +39,41 @@ class RegisteredHoursStream(DyflexisStream):
         th.Property("status", th.StringType),
         th.Property("breakMinutes", th.IntegerType),
         th.Property("duration", th.IntegerType),
+    ).to_dict()
+
+class EmployeeStream(DyflexisStream):
+    """Employees from Dyflexis."""
+
+    name = "employees"
+    path = "/payroll/v3/employees"
+    primary_keys = ["id"]
+    replication_key = None
+    records_jsonpath = "$.employees[*]"
+
+    schema = th.PropertiesList(
+        th.Property("employeeId", th.IntegerType),
+        th.Property("firstName", th.StringType),
+        th.Property("lastNamePrefix", th.StringType),
+        th.Property("lastName", th.StringType),
+        th.Property("nameFormat", th.StringType),
+        th.Property("employmentStart", th.StringType),
+        th.Property("employmentEnd", th.StringType),
+        th.Property("personnelNumber", th.StringType),
+        th.Property("costCenter", th.StringType),
+        th.Property("probationDate", th.StringType),
+        th.Property("employerReferenceId", th.StringType),
+        th.Property("jobDescription", th.StringType),
+        th.Property("contracts", th.ArrayType(
+            th.ObjectType(
+                th.Property("contractReference", th.StringType),
+                th.Property("officeId", th.IntegerType),
+                th.Property("type", th.IntegerType),
+                th.Property("start", th.DateType),
+                th.Property("end", th.DateType),
+                th.Property("hoursPerWeek", th.IntegerType),
+                th.Property("daysPerWeek", th.IntegerType),
+                th.Property("hourlySalary", th.IntegerType),
+                th.Property("maxHoursPerWeek", th.IntegerType),
+            )
+        ))
     ).to_dict()
