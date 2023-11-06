@@ -6,7 +6,6 @@ from urllib.parse import parse_qsl
 from typing import Any, Iterable
 
 import requests
-import logging
 
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
