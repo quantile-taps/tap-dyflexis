@@ -42,6 +42,7 @@ class TapDyflexis(Tap):
         """
         return [
             streams.RegisteredHoursStream(self),
+            streams.EmployeeStream(self),
         ]
 
 
