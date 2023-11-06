@@ -25,10 +25,6 @@ class DyflexisStream(RESTStream):
         """Return the API URL root, configurable via tap settings."""
         return f"https://app.planning.nu/{self.config['system_name']}/api"
 
-    records_jsonpath = "$.registeredHours[*]"  # Or override `parse_response`.
-
-    next_page_token_jsonpath = "$._links.next.href"
-
     @property
     def http_headers(self) -> dict:
         """Return the http headers needed.
