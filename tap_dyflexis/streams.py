@@ -46,7 +46,7 @@ class EmployeeStream(DyflexisStream):
 
     name = "employees"
     path = "/payroll/v3/employees"
-    primary_keys = ["id"]
+    primary_keys = ["employeeId"]
     replication_key = None
     records_jsonpath = "$.employees[*]"
 
