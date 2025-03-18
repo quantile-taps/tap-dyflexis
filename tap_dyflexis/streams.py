@@ -76,9 +76,9 @@ class EmployeeStream(DyflexisStream):
                 th.Property("start", th.DateType),
                 th.Property("end", th.DateType),
                 th.Property("hoursPerWeek", th.NumberType),
-                th.Property("daysPerWeek", th.IntegerType),
-                th.Property("hourlySalary", th.IntegerType),
-                th.Property("maxHoursPerWeek", th.IntegerType),
+                th.Property("daysPerWeek", th.NumberType),
+                th.Property("hourlySalary", th.NumberType),
+                th.Property("maxHoursPerWeek", th.NumberType),
             )
         ))
     ).to_dict()
