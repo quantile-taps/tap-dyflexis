@@ -1,10 +1,12 @@
 """Stream type classes for tap-dyflexis."""
 
 from __future__ import annotations
-
 from singer_sdk import typing as th 
-
 from tap_dyflexis.client import DyflexisStream
+from typing import Any
+from urllib.parse import parse_qsl
+from datetime import datetime
+
 
 class RegisteredHoursStream(DyflexisStream):
     """Registered hours from Dyflexis."""
@@ -12,7 +14,7 @@ class RegisteredHoursStream(DyflexisStream):
     name = "registered_hours"
     path = "/business/v3/registered-hours"
     primary_keys = ["id"]
-    replication_key = None
+    replication_key = "startDateTime"
     records_jsonpath = "$.registeredHours[*]"
 
     schema = th.PropertiesList(
@@ -36,7 +38,13 @@ class RegisteredHoursStream(DyflexisStream):
         th.Property("status", th.StringType),
         th.Property("breakMinutes", th.IntegerType),
         th.Property("duration", th.IntegerType),
+        # th.Property("costCenterId", th.StringType),
+        # th.Property("costCenterName", th.StringType),
+        # th.Property("costCenterCode", th.StringType),
+        # th.Property("kilometers", th.StringType),
+        # th.Property("customExpenses", th.StringType),
     ).to_dict()
+
 
 class EmployeeStream(DyflexisStream):
     """Employees from Dyflexis."""
@@ -67,7 +75,7 @@ class EmployeeStream(DyflexisStream):
                 th.Property("type", th.IntegerType),
                 th.Property("start", th.DateType),
                 th.Property("end", th.DateType),
-                th.Property("hoursPerWeek", th.IntegerType),
+                th.Property("hoursPerWeek", th.NumberType),
                 th.Property("daysPerWeek", th.IntegerType),
                 th.Property("hourlySalary", th.IntegerType),
                 th.Property("maxHoursPerWeek", th.IntegerType),

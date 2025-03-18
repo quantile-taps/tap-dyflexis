@@ -4,9 +4,8 @@ from __future__ import annotations
 
 from urllib.parse import parse_qsl
 from typing import Any, Iterable
-
 import requests
-
+from datetime import datetime
 from singer_sdk.helpers.jsonpath import extract_jsonpath
 from singer_sdk.streams import RESTStream
 from singer_sdk.pagination import BaseHATEOASPaginator, BaseAPIPaginator
@@ -56,7 +55,13 @@ class DyflexisStream(RESTStream):
         Returns:
             A dictionary of URL query parameters.
         """
-        params: dict = {}
+        params = {}
+
+        # If the stream has a replication key, we should add it to the URL params
+        if self.replication_key:
+            start_date = datetime.strptime(self.config["start_date"], "%Y-%m-%d")
+            params["startDate"] = start_date.strftime("%Y-%m-%d")
+
         # Next page token is a URL, so we can to parse it to extract the query string
         if next_page_token:
             params.update(parse_qsl(next_page_token.query))
