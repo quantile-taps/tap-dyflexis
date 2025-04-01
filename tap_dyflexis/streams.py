@@ -14,7 +14,9 @@ class RegisteredHoursStream(DyflexisStream):
     name = "registered_hours"
     path = "/business/v3/registered-hours"
     primary_keys = ["id"]
-    replication_key = "startDateTime"
+
+    # Remove the replication key because we are missing records and full refresh takes only half a minute at the moment
+    # replication_key = "startDateTime"
     records_jsonpath = "$.registeredHours[*]"
 
     schema = th.PropertiesList(
